@@ -1,0 +1,9 @@
+<%= @user.username %>さんのお気に入り一覧
+<% @favorites.each do |favorite| %>
+  <p>
+    <%= favorite.restaurant_name %>
+  </p>
+  <p>
+    <%= favorite.restaurant_address %>
+  </p>
+<% end %>

@@ -1,0 +1,25 @@
+<%= render 'search_form' %>
+
+<div id="article_wrap">
+  <% if @restaurants %>
+    <p>
+      <%= @count %>件見つかりました。
+    </p>
+    <% if @count > 100 %>
+      <p>
+        上位100件を表示しています。
+      </p>
+    <% end %>
+    <% @restaurants.each do |restaurant| %>
+      <p>
+        レストラン名：<%= link_to restaurant["name"], search_path(rest: restaurant) %>
+      </p>
+      <p>
+        <%= image_tag(restaurant["image_url"]["shop_image1"]) %>
+        <%= image_tag(restaurant["image_url"]["shop_image2"]) %>
+      </p>
+    <% end %>
+    <%= paginate @restaurants, class: "paginate" %>
+  <% end %>
+</div>
+

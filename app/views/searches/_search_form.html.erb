@@ -1,0 +1,11 @@
+<div id="article_wrap">
+  <%= form_with url: root_path, method: :get, local: true do |f| %>
+    <p>
+      <%= f.text_field :freeword, class: "search_form", placeholder: "キーワードを入力してください" %>
+    </p>
+    <p>
+      <%= f.select :address, Ride.ride_areas.keys, {} %>
+    </p>
+    <%= f.submit "検索" %>
+  <% end %>
+</div>

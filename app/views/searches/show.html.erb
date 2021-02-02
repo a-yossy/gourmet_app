@@ -1,0 +1,55 @@
+<p>
+  レストラン名：<%= @restaurant["name"] %>
+</p>
+<p>
+<p>
+  住所：<%= @restaurant["address"] %>
+  <script type="text/javascript">
+    function initMap() {
+
+      var test ={ lat: <%= @restaurant["latitude"] %>, lng: <%= @restaurant["longitude"] %> };
+      var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15, 
+                center: test
+                });
+      var transitLayer = new google.maps.TransitLayer();
+      transitLayer.setMap(map);
+
+      var contentString = '住所：<%= @restaurant["address"] %>';
+      var infowindow = new google.maps.InfoWindow({
+                       content: contentString
+                       });
+
+      var marker = new google.maps.Marker({
+                   position:test,
+                   map: map,
+                   title: contentString
+                   });
+
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+    }
+  </script>
+
+  <script async defer
+                src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=<%= @key %>&callback=initMap'>
+  </script>
+  <style type="text/css">
+  #map { height: 200px;
+         width: 70%;}
+  </style>
+
+  <div id="map"></div>
+</p>
+<p>
+  <% if current_user.present? %>
+    <% if Favorite.find_by(restaurant_name: @restaurant["name"], restaurant_address: @restaurant["address"], user_id: current_user) %>
+      <%= link_to "お気に入り削除", favorites_path(rest_add: @restaurant["address"], rest_name: @restaurant["name"], rest_lat: @restaurant["latitude"], rest_lng: @restaurant["longitude"]), method: :delete %>
+    <% else %>
+      <%= link_to "お気に入り登録", favorites_path(rest_add: @restaurant["address"], rest_name: @restaurant["name"], rest_lat: @restaurant["latitude"], rest_lng: @restaurant["longitude"]), method: :post %>
+    <% end %>
+  <% end %>
+</p>
+
+
